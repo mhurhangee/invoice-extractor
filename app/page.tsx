@@ -68,48 +68,53 @@ export default function InvoiceExtractor() {
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-10 px-4 max-w-4xl">
       <Toaster richColors />
-      <h1 className="text-2xl font-bold mb-5">Invoice Extractor</h1>
-      <Table>
-        <TableCaption>A list of your invoices</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Client</TableHead>
-            <TableHead>Amount Paid</TableHead>
-            <TableHead>Invoice Number</TableHead>
-            <TableHead>Date</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {invoices.map((invoice, index) => (
-            <TableRow key={index}>
-              <TableCell>{invoice.client}</TableCell>
-              <TableCell>
-                {new Intl.NumberFormat('en-US', { style: 'currency', currency: invoice.currency }).format(invoice.amountPaid)}
-              </TableCell>
-              <TableCell>{invoice.invoiceNumber}</TableCell>
-              <TableCell>{invoice.date}</TableCell>
+      <h1 className="text-3xl font-bold mb-8 text-center">Invoice Extractor</h1>
+      <p className="text-center text-gray-600 mb-6">
+        Upload readable PDF invoices to automatically extract relevant information using AI. The extracted data will be displayed in the table below.
+      </p>
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <Table>
+          <TableCaption>A list of your invoices</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Client</TableHead>
+              <TableHead>Amount Paid</TableHead>
+              <TableHead>Invoice Number</TableHead>
+              <TableHead>Date</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <div className="mt-4">
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogTrigger asChild>
-            <Button>Add Invoices</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Upload Invoices</DialogTitle>
-            </DialogHeader>
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="invoice">Upload PDF Invoices</Label>
-              <Input id="invoice" type="file" accept=".pdf" multiple onChange={handleFileUpload} disabled={isLoading} />
-            </div>
-            {isLoading && <p className="text-sm text-gray-500">Processing invoices...</p>}
-          </DialogContent>
-        </Dialog>
+          </TableHeader>
+          <TableBody>
+            {invoices.map((invoice, index) => (
+              <TableRow key={index}>
+                <TableCell>{invoice.client}</TableCell>
+                <TableCell>
+                  {new Intl.NumberFormat('en-US', { style: 'currency', currency: invoice.currency }).format(invoice.amountPaid)}
+                </TableCell>
+                <TableCell>{invoice.invoiceNumber}</TableCell>
+                <TableCell>{invoice.date}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <div className="mt-6 flex justify-center">
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <DialogTrigger asChild>
+              <Button>Add Invoices</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Upload Invoices</DialogTitle>
+              </DialogHeader>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label htmlFor="invoice">Upload PDF Invoices</Label>
+                <Input id="invoice" type="file" accept=".pdf" multiple onChange={handleFileUpload} disabled={isLoading} />
+              </div>
+              {isLoading && <p className="text-sm text-gray-500">Processing invoices...</p>}
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
     </div>
   )
